@@ -13,10 +13,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Basic route for testing
+// Basic route for my testing
 app.get('/', (req, res) => {
     res.render('index', { 
         title: 'Little Recipe Book',
         message: 'Welcome to the Recipe Book!'
     });
 });
+
+// Error handling for the middleware
+app.use((req, res, next) => {
+    const error = new Error('Not Found');
+    error.status = 404;
+    next(error);
+});
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: process.env.NODE_ENV === 'development' ? err : {}
+    });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+module.exports = app;
