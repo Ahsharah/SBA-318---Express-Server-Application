@@ -10,3 +10,8 @@ router.get('/', (req, res) => {
         : RecipeModel.getAll();
     res.render('recipes/index', { recipes });
 });
+// GET single recipe
+router.get('/:id', (req, res) => {
+    const recipe = RecipeModel.getById(req.params.id);
+    if (recipe) {
+        res.render('recipes/show', { recipe });
