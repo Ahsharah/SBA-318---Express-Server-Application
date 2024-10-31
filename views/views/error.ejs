@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Error</h1>
-    </header>
-    <main>
-        <h2><%= message %></h2>
-        <% if (error.status) { %>
-            <p>Status: <%= error.status %></p>
-        <% } %>
-    </main>
+    <div class="error-container">
+        <h1>Oops! Something went wrong</h1>
+        <div class="error-details">
+            <h2><%= message %></h2>
+            <% if (error.status) { %>
+                <p>Status: <%= error.status %></p>
+            <% } %>
+        </div>
+        <a href="/" class="home-link">Return to Home</a>
+    </div>
 </body>
 </html>
