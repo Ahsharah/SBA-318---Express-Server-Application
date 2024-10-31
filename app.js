@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
+// Environment variables
 const PORT = process.env.PORT || 3000;
 
 // Middleware
@@ -13,26 +14,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Basic route for my testing
+// Basic route for testing
 app.get('/', (req, res) => {
-    res.render('index', { 
-        title: 'Little Recipe Book',
-        message: 'Welcome to the Recipe Book!'
-    });
+    res.send('Hello World! Server is working.');
 });
 
-// Error handling for the middleware
-app.use((req, res, next) => {
-    const error = new Error('Not Found');
-    error.status = 404;
-    next(error);
-});
-app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: process.env.NODE_ENV === 'development' ? err : {}
-    });
+// Simplified error handling
+app.use((req, res) => {
+    res.status(404).send('Page not found');
 });
 
 app.listen(PORT, () => {
