@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>Error</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <header>
-        <h1><%= title %></h1>
+        <h1>Error</h1>
     </header>
     <main>
-        <p><%= message %></p>
+        <h2><%= message %></h2>
+        <% if (error.status) { %>
+            <p>Status: <%= error.status %></p>
+        <% } %>
     </main>
 </body>
 </html>
