@@ -1,31 +1,39 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-
-// Environment variables
-const PORT = process.env.PORT || 3000;
-
-// Middleware
+// Essential ingredients (middleware)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// View engine setup
+// Recipe book setup (view engine configuration)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Basic route for testing
+// Welcome to my kitchen! (main route)
 app.get('/', (req, res) => {
-    res.send('Hello World! Server is working.');
+    res.render('index', {
+        title: "Alexandria's Recipe Collection",
+        message: "Welcome to my virtual kitchen!"
+    });
 });
 
-// Simplified error handling
-app.use((req, res) => {
-    res.status(404).send('Page not found');
+// Oops! Recipe not found (404 handler)
+app.use((req, res, next) => {
+    res.status(404).render('error', {
+        message: "Sorry! We couldn't find the recipe you're looking for.",
+        error: { status: 404 }
+    });
 });
 
+// Kitchen mishap handler (error handler)
+app.use((err, req, res, next) => {
+    res.status(err.status || 500).render('error', {
+        message: err.message || "Oops! We had a little kitchen mishap.",
+        error: process.env.NODE_ENV === 'development' ? err : {}
+    });
+});
+
+// Opening the kitchen (start server)
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`🧁 Kitchen is open! Server is running on port ${PORT}`);
 });
 
 module.exports = app;
