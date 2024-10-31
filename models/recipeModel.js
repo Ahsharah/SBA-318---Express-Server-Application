@@ -30,3 +30,31 @@ const RecipeModel = {
             id: recipes.length + 1,
             ...recipe
         };
+        recipes.push(newRecipe);
+        return newRecipe;
+    },
+    update: (id, updates) => {
+        const index = recipes.findIndex(recipe => recipe.id === parseInt(id));
+        if (index !== -1) {
+            recipes[index] = { ...recipes[index], ...updates };
+            return recipes[index];
+        }
+        return null;
+    },
+    delete: (id) => {
+        const index = recipes.findIndex(recipe => recipe.id === parseInt(id));
+        if (index !== -1) {
+            const deleted = recipes[index];
+            recipes = recipes.filter(recipe => recipe.id !== parseInt(id));
+            return deleted;
+        }
+        return null;
+    },
+    filterByCategory: (category) => {
+        return recipes.filter(recipe => 
+            recipe.category.toLowerCase() === category.toLowerCase()
+        );
+    }
+};
+
+module.exports = RecipeModel;
